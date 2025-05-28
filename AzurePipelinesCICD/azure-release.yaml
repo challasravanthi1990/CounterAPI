@@ -31,4 +31,4 @@ stages:
                     azureSubscription: 'Azurefree'
                     appType: 'webApp'
                     appName: 'counterapideploy'
-                    package: '$(Build.ArtifactStagingDirectory)/drop'
+                    package: '$(Pipeline.Workspace)/buildPipeline/drop/**/*.zip'
