@@ -2,8 +2,9 @@ trigger: none
 
 resources:
   pipelines:
-    - pipeline: buildPipeline
-      source: 'azure-build'
+    - pipeline: 'buildPipeline'
+      project: 'counterAPI-DevOps'
+      source: 'Build'
       trigger:
         branches:
           include:
@@ -27,7 +28,7 @@ stages:
 
                 - task: AzureWebApp@1
                   inputs:
-                    azureSubscription: 'Azure subscription 1'
+                    azureSubscription: 'Azurefree'
                     appType: 'webApp'
                     appName: 'counterapideploy'
                     package: '$(Pipeline.Workspace)/drop'
