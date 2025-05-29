@@ -31,5 +31,21 @@ stages:
                     azureSubscription: 'Azurefree'
                     appType: 'webApp'
                     appName: 'counterapideploy'
-                    package: '$(Pipeline.Workspace)/buildPipeline/drop/src.zip'
+                    package: '$(Pipeline.Workspace)/buildPipeline/drop/src'
                     deploymentMethod: 'zipDeploy'
+                - task: AzureAppServiceSettings@1
+                  inputs:
+                    azureSubscription: 'Azurefree'
+                    appName: 'counterapideploy'
+                    resourceGroupName: 'payments'
+                    appSettings: |
+                      [
+                        {
+                          "name": "WEBSITE_RUN_FROM_PACKAGE",
+                          "value": "1"
+                        },
+                        {
+                          "name": "ASPNETCORE_ENVIRONMENT",
+                          "value": "Production"
+                        }
+                      ]
