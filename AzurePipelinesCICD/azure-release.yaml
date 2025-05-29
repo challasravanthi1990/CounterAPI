@@ -1,0 +1,35 @@
+trigger: none
+
+resources:
+  pipelines:
+    - pipeline: 'buildPipeline'
+      project: 'counterAPI-DevOps'
+      source: 'Build'
+      trigger:
+        branches:
+          include:
+            - main
+
+pool:
+  name: Default
+
+stages:
+  - stage: Deploy
+    displayName: 'CD Pipeline'
+    jobs:
+      - deployment: DeployWebApp
+        environment: 'development'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - download: buildPipeline
+                  artifact: drop
+
+                - task: AzureWebApp@1
+                  inputs:
+                    azureSubscription: 'Azurefree'
+                    appType: 'webApp'
+                    appName: 'counterapideploy'
+                    package: '$(Pipeline.Workspace)/buildPipeline/drop/src.zip'
+                    deploymentMethod: 'zipDeploy'
